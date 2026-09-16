@@ -26,15 +26,13 @@ async def create_booking(session: AsyncSession, booking_data: BookingCreate) -> 
     return booking
 
 
-async def get_bookings(session: AsyncSession,booking_date: date | None = None, limit: int = 20, offset: int = 0) -> list[Booking]:
+async def get_bookings(session: AsyncSession, booking_date: date | None = None) -> list[Booking]:
     query = select(Booking)
 
     if booking_date is not None:
         query = query.where(Booking.booking_date == booking_date)
 
-    query  = query.limit(limit).offset(offset)
     result = await session.execute(query)
-
     return list(result.scalars().all())
 
 

@@ -26,13 +26,8 @@ async def create_booking_endpoint(booking_data: BookingCreate, session: SessionD
     return await create_booking(session, booking_data)
 
 @router.get("", response_model=list[BookingOut])
-async def get_bookings_endpoint(
-        session: SessionDep,
-        date: date | None = None,
-        limit: int = Query(default=20, ge=1, le=100),
-        offset: int = Query(default=0, ge=0),
-) -> list[BookingOut]:
-    return await get_bookings(session, date, limit, offset)
+async def get_bookings_endpoint(session: SessionDep, date: date | None = None) -> list[BookingOut]:
+    return await get_bookings(session, date)
 
 
 @router.get("/{booking_id}", response_model=BookingOut)
